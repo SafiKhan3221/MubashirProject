@@ -23,7 +23,7 @@ public class CredentialManager : MonoBehaviour
     };
 
 
-
+    public TextMeshProUGUI popUpText;
     [System.Serializable]
     public class PlayerData
     {
@@ -94,6 +94,8 @@ public class CredentialManager : MonoBehaviour
                     showcnicText.text =string.Empty;
                     showSNumbText.text = string.Empty;
                     showblcktext.text = string.Empty;
+                    PopUpPanel.SetActive(!false);
+                    popUpText.text = "CNIC Number is Incorrect! Try Again";
                     //fetchDataTablePanel.SetActive(false);
                     Debug.Log("Invalid data");
 
@@ -115,6 +117,7 @@ public class CredentialManager : MonoBehaviour
             showcnicText.text = string.Empty;
             showSNumbText.text = string.Empty;
             showblcktext.text = string.Empty;
+            popUpText.text = "UserName or Password is Incorrect! Try Again";
             PopUpPanel.SetActive(true);
         }
     }
@@ -161,12 +164,13 @@ public class CredentialManager : MonoBehaviour
             else
             {
                 PopUpPanel.SetActive(true);
-
+                popUpText.text = "UserName or Password is Incorrect! Try Again";
                 Debug.Log("Invalid password");
             }
         }
         else
         {
+            popUpText.text = "UserName or Password is Incorrect! Try Again";
             PopUpPanel.SetActive(true);
         }
 
