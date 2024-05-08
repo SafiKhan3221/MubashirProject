@@ -14,7 +14,7 @@ public class CredentialManager : MonoBehaviour
     public TMP_InputField userCnic;
     public Button loginButton,searchBtn;
     public GameObject loginPanel, PopUpPanel, searchPanel, fetchDataTablePanel;
-    public TextMeshProUGUI showcnicText,showblockText,showblcktext;
+    public TextMeshProUGUI showcnicText,showSNumbText,showblcktext;
     Dictionary<int, string> staffDetails = new Dictionary<int, string>
     {
         {101,"mub1999" },
@@ -22,15 +22,14 @@ public class CredentialManager : MonoBehaviour
         {103,"sab1999" }
     };
 
-    public string excelFilePath;
-    public string phoneNumberToSearch;
+
 
     [System.Serializable]
     public class PlayerData
     {
         public int cnic;
-        public int id;
-        public int marks;
+        public int srNumber;
+        public int blockCode;
 
     }
 
@@ -54,8 +53,8 @@ public class CredentialManager : MonoBehaviour
         {
             playerDataList.playerData[i] = new PlayerData();
             playerDataList.playerData[i].cnic =int.Parse( data[3*(i+1)]);
-            playerDataList.playerData[i].id=int.Parse(data[ 3*(i+1)+1]);
-            playerDataList.playerData[i].marks=int.Parse(data[ 3*(i+1)+2]);
+            playerDataList.playerData[i].srNumber=int.Parse(data[ 3*(i+1)+1]);
+            playerDataList.playerData[i].blockCode=int.Parse(data[ 3*(i+1)+2]);
         }
     }
 
@@ -63,7 +62,7 @@ public class CredentialManager : MonoBehaviour
     {
         for (int i = 0; i < playerDataList.playerData.Length; i++)
         {
-            if (playerDataList.playerData[i].id == cnic)
+            if (playerDataList.playerData[i].srNumber == cnic)
             {
                 return playerDataList.playerData[i].cnic.ToString();
             }
@@ -80,13 +79,22 @@ public class CredentialManager : MonoBehaviour
             {
                 if (playerDataList.playerData[i].cnic == data)
                 {
-                    print(playerDataList.playerData[i].cnic);
-                    print(playerDataList.playerData[i].id);
-                    print(playerDataList.playerData[i].marks);
+                    //print(playerDataList.playerData[i].cnic);
+                    //print(playerDataList.playerData[i].srNumber);
+                    //print(playerDataList.playerData[i].blockCode);
+                    showcnicText.text = playerDataList.playerData[i].cnic.ToString();
+                    showSNumbText.text = playerDataList.playerData[i].srNumber.ToString();
+                    showblcktext.text = playerDataList.playerData[i].blockCode.ToString();
+                    fetchDataTablePanel.SetActive(true);
+                    return;
                     Debug.Log("datamatched");
                 }
                 else
                 {
+                    showcnicText.text =string.Empty;
+                    showSNumbText.text = string.Empty;
+                    showblcktext.text = string.Empty;
+                    //fetchDataTablePanel.SetActive(false);
                     Debug.Log("Invalid data");
 
                 }
@@ -104,6 +112,9 @@ public class CredentialManager : MonoBehaviour
         }
         else
         {
+            showcnicText.text = string.Empty;
+            showSNumbText.text = string.Empty;
+            showblcktext.text = string.Empty;
             PopUpPanel.SetActive(true);
         }
     }
@@ -120,6 +131,9 @@ public class CredentialManager : MonoBehaviour
             loginPanel.SetActive(!true);
             searchPanel.SetActive(true);
         }
+        showcnicText.text = string.Empty;
+        showSNumbText.text = string.Empty;
+        showblcktext.text = string.Empty;
         loginButton.onClick.RemoveAllListeners();
         loginButton.onClick.AddListener(adminDetails);
        searchBtn.onClick.RemoveAllListeners();
