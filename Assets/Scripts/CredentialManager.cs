@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +13,7 @@ public class CredentialManager : MonoBehaviour
     public TMP_InputField passwordField;
     public TMP_InputField userCnic;
     public Button loginButton,searchBtn;
-    public GameObject loginPanel, PopUpPanel, searchPanel, fetchDataTablePanel;
+    public GameObject loginPanel, PopUpPanel, searchPanel, fetchDataTablePanel,loadingScreen;
     public TextMeshProUGUI showcnicText,showSNumbText,showblcktext;
     Dictionary<int, string> staffDetails = new Dictionary<int, string>
     {
@@ -44,7 +44,10 @@ public class CredentialManager : MonoBehaviour
     public TextAsset textAssetData;
     public PlayerDataList playerDataList=new PlayerDataList();
 
-
+    private void Awake()
+    {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+    }
     void ReadCSV()
     {
         string[] data = textAssetData.text.Split(new string[] { ",", "\n" }, StringSplitOptions.None);
@@ -124,8 +127,11 @@ public class CredentialManager : MonoBehaviour
         }
     }
     // Start is called before the first frame update
-    void Start()
+    void  Start()
     {
+       
+    
+      
         if (PlayerPrefs.GetInt("FirstTime") != 1)
         {
             loginPanel.SetActive(true);
