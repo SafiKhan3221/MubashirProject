@@ -22,7 +22,39 @@ public class CredentialManager : MonoBehaviour
     public string excelFilePath;
     public string phoneNumberToSearch;
 
-  
+    [System.Serializable]
+    public class PlayerData
+    {
+        public int name;
+        public int id;
+        public int marks;
+
+    }
+
+    [System.Serializable]
+    public class PlayerDataList
+    {
+        public PlayerData[] playerData;
+    }
+
+    public TextAsset textAssetData;
+    public PlayerDataList playerDataList=new PlayerDataList();
+
+
+    void ReadCSV()
+    {
+        string[] data = textAssetData.text.Split(new string[] { ",", "\n" }, StringSplitOptions.None);
+
+        int tableSize = data.Length / 3 - 1;
+        playerDataList.playerData= new PlayerData[tableSize];
+        for (int i = 0; i < tableSize; i++)
+        {
+            playerDataList.playerData[i] = new PlayerData();
+            playerDataList.playerData[i].name =int.Parse( data[3*(i+1)]);
+            playerDataList.playerData[i].id=int.Parse(data[ 3*(i+1)+1]);
+            playerDataList.playerData[i].marks=int.Parse(data[ 3*(i+1)+2]);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +69,8 @@ public class CredentialManager : MonoBehaviour
             searchPanel.SetActive(true);
         }
         loginButton.onClick.AddListener(adminDetails);
+
+        ReadCSV();
     }
     public void adminDetails()
     {
