@@ -207,8 +207,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2460,8 +2460,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3413,13 +3413,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userNameField: {fileID: 847741806}
   passwordField: {fileID: 899326258}
+  userCnic: {fileID: 1743538906}
   loginButton: {fileID: 1316084788}
+  searchBtn: {fileID: 97574099}
   loginPanel: {fileID: 155570600}
   PopUpPanel: {fileID: 1646932872}
   searchPanel: {fileID: 402323449}
   fetchDataTablePanel: {fileID: 1423109942}
+  showcnicText: {fileID: 0}
+  showblockText: {fileID: 0}
+  showblcktext: {fileID: 0}
   excelFilePath: 
   phoneNumberToSearch: 
+  textAssetData: {fileID: 4900000, guid: 6b033eb0c69164d448cedcb5713683e4, type: 3}
+  playerDataList:
+    playerData: []
 --- !u!4 &1530365855
 Transform:
   m_ObjectHideFlags: 0

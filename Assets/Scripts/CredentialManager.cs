@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +11,10 @@ public class CredentialManager : MonoBehaviour
  
     public TMP_InputField userNameField;
     public TMP_InputField passwordField;
-    public Button loginButton;
+    public TMP_InputField userCnic;
+    public Button loginButton,searchBtn;
     public GameObject loginPanel, PopUpPanel, searchPanel, fetchDataTablePanel;
+    public TextMeshProUGUI showcnicText,showblockText,showblcktext;
     Dictionary<int, string> staffDetails = new Dictionary<int, string>
     {
         {101,"mub1999" },
@@ -25,7 +28,7 @@ public class CredentialManager : MonoBehaviour
     [System.Serializable]
     public class PlayerData
     {
-        public int name;
+        public int cnic;
         public int id;
         public int marks;
 
@@ -50,9 +53,58 @@ public class CredentialManager : MonoBehaviour
         for (int i = 0; i < tableSize; i++)
         {
             playerDataList.playerData[i] = new PlayerData();
-            playerDataList.playerData[i].name =int.Parse( data[3*(i+1)]);
+            playerDataList.playerData[i].cnic =int.Parse( data[3*(i+1)]);
             playerDataList.playerData[i].id=int.Parse(data[ 3*(i+1)+1]);
             playerDataList.playerData[i].marks=int.Parse(data[ 3*(i+1)+2]);
+        }
+    }
+
+    string ReturnData(int cnic)
+    {
+        for (int i = 0; i < playerDataList.playerData.Length; i++)
+        {
+            if (playerDataList.playerData[i].id == cnic)
+            {
+                return playerDataList.playerData[i].cnic.ToString();
+            }
+        }
+        return string.Empty;
+    }
+    public void SearchData()
+    {
+        if (int.TryParse(userCnic.text, out int  data))
+        {
+
+     
+            for(int i = 0;i < playerDataList.playerData.Length; i++)
+            {
+                if (playerDataList.playerData[i].cnic == data)
+                {
+                    print(playerDataList.playerData[i].cnic);
+                    print(playerDataList.playerData[i].id);
+                    print(playerDataList.playerData[i].marks);
+                    Debug.Log("datamatched");
+                }
+                else
+                {
+                    Debug.Log("Invalid data");
+
+                }
+            }
+            //if (staffDetails.TryGetValue(cnic, out foundCnic)&& foundCnic==ReturnData(cnic))
+            //{
+               
+            //}
+            //else
+            //{
+            //    PopUpPanel.SetActive(true);
+
+            //    Debug.Log("Invalid data");
+            //}
+        }
+        else
+        {
+            PopUpPanel.SetActive(true);
         }
     }
     // Start is called before the first frame update
@@ -68,7 +120,10 @@ public class CredentialManager : MonoBehaviour
             loginPanel.SetActive(!true);
             searchPanel.SetActive(true);
         }
+        loginButton.onClick.RemoveAllListeners();
         loginButton.onClick.AddListener(adminDetails);
+       searchBtn.onClick.RemoveAllListeners();
+       searchBtn.onClick.AddListener(SearchData);
 
         ReadCSV();
     }
