@@ -27,9 +27,11 @@ public class CredentialManager : MonoBehaviour
     [System.Serializable]
     public class PlayerData
     {
-        public int cnic;
-        public int srNumber;
-        public int blockCode;
+
+        public long cnic;
+        public long srNumber;
+       
+        public long blockCode;
 
     }
 
@@ -52,9 +54,9 @@ public class CredentialManager : MonoBehaviour
         for (int i = 0; i < tableSize; i++)
         {
             playerDataList.playerData[i] = new PlayerData();
-            playerDataList.playerData[i].cnic =int.Parse( data[3*(i+1)]);
-            playerDataList.playerData[i].srNumber=int.Parse(data[ 3*(i+1)+1]);
-            playerDataList.playerData[i].blockCode=int.Parse(data[ 3*(i+1)+2]);
+            playerDataList.playerData[i].srNumber =Int64.Parse( data[3*(i+1)]);
+            playerDataList.playerData[i].cnic= Int64.Parse(data[ 3*(i+1)+1]);
+            playerDataList.playerData[i].blockCode=Int64.Parse(data[ 3*(i+1)+2]);
         }
     }
 
