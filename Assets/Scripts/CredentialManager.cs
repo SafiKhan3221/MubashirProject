@@ -76,12 +76,16 @@ public class CredentialManager : MonoBehaviour
     }
     public void SearchData()
     {
-        if (int.TryParse(userCnic.text, out int  data))
+       
+        if (Int64.TryParse(userCnic.text, out long  data))
         {
 
+
+            print(playerDataList.playerData.Length);
      
             for(int i = 0;i < playerDataList.playerData.Length; i++)
             {
+             
                 if (playerDataList.playerData[i].cnic == data)
                 {
                     //print(playerDataList.playerData[i].cnic);
@@ -91,8 +95,9 @@ public class CredentialManager : MonoBehaviour
                     showSNumbText.text = playerDataList.playerData[i].srNumber.ToString();
                     showblcktext.text = playerDataList.playerData[i].blockCode.ToString();
                     fetchDataTablePanel.SetActive(true);
-                    return;
-                    Debug.Log("datamatched");
+                    PopUpPanel.SetActive(false);
+                    break;
+                  
                 }
                 else
                 {
@@ -102,7 +107,7 @@ public class CredentialManager : MonoBehaviour
                     PopUpPanel.SetActive(!false);
                     popUpText.text = "CNIC Number is Incorrect! Try Again";
                     //fetchDataTablePanel.SetActive(false);
-                    Debug.Log("Invalid data");
+                 
 
                 }
             }
@@ -122,16 +127,19 @@ public class CredentialManager : MonoBehaviour
             showcnicText.text = string.Empty;
             showSNumbText.text = string.Empty;
             showblcktext.text = string.Empty;
-            popUpText.text = "UserName or Password is Incorrect! Try Again";
+            popUpText.text = "CNIC Number is Incorrect! Try Again";
             PopUpPanel.SetActive(true);
         }
     }
     // Start is called before the first frame update
-    void  Start()
+  IEnumerator Start()
     {
-       
-    
-      
+         loadingScreen.SetActive(!false);
+        ReadCSV();
+
+        yield return new WaitForSeconds(6f);
+        loadingScreen.SetActive(false);
+
         if (PlayerPrefs.GetInt("FirstTime") != 1)
         {
             loginPanel.SetActive(true);
@@ -150,7 +158,7 @@ public class CredentialManager : MonoBehaviour
        searchBtn.onClick.RemoveAllListeners();
        searchBtn.onClick.AddListener(SearchData);
 
-        ReadCSV();
+       
     }
     public void adminDetails()
     {
