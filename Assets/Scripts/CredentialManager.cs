@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +15,13 @@ public class CredentialManager : MonoBehaviour
     public Button loginButton,searchBtn;
     public GameObject loginPanel, PopUpPanel, searchPanel, fetchDataTablePanel,loadingScreen;
     public TextMeshProUGUI showcnicText,showSNumbText,showblcktext;
+
+
+
+
+
+
+
     Dictionary<int, string> staffDetails = new Dictionary<int, string>
     {
         {101,"mub1999" },
@@ -43,10 +50,30 @@ public class CredentialManager : MonoBehaviour
 
     public TextAsset textAssetData;
     public PlayerDataList playerDataList=new PlayerDataList();
-
+    private static string GetSavePath()
+    {
+        return Path.Combine(Application.persistentDataPath, "vps.json");
+    }
     private void Awake()
     {
+        Debug.Log(Application.persistentDataPath);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        if (File.Exists(GetSavePath()))
+        {
+            string fileContent = File.ReadAllText(GetSavePath());
+            // Create a new TextAsset and assign the file content
+            textAssetData = new TextAsset(fileContent);
+
+            // Optionally, you can set the name of the TextAsset
+            textAssetData.name = Path.GetFileNameWithoutExtension("vps.json");
+            //JsonUtility.FromJsonOverwrite(fileContent, DataSaver.dataSaver);
+
+            Debug.Log("Game Load Successful --> " + GetSavePath());
+        }
+        else
+        {
+            //SaveProgress();
+        }
     }
     void ReadCSV()
     {
@@ -201,9 +228,14 @@ public class CredentialManager : MonoBehaviour
         // Enable the login button if both fields are not empty
         loginButton.interactable = isUsernameValid && isPasswordValid;
     }
-    // Update is called once per frame
-    void Update()
+    public  void SaveProgress()
     {
-        
+      
+
+        // Optionally, you can set the name of the TextAsset
+        textAssetData.name = Path.GetFileNameWithoutExtension("vps.json");
+        string saveDataHashed = JsonUtility.ToJson(textAssetData, true);
+        //Debug.Log(saveDataHashed);
+        File.WriteAllText(GetSavePath(), saveDataHashed);
     }
 }
