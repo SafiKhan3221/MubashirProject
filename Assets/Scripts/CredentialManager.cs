@@ -14,7 +14,7 @@ public class CredentialManager : MonoBehaviour
     public TMP_InputField userCnic;
     public Button loginButton,searchBtn;
     public GameObject loginPanel, PopUpPanel, searchPanel, fetchDataTablePanel,loadingScreen;
-    public TextMeshProUGUI showcnicText,showSNumbText,showblcktext;
+    public TextMeshProUGUI showcnicText,showSNumbText,showblcktext,showPolingStationText;
 
 
 
@@ -37,8 +37,8 @@ public class CredentialManager : MonoBehaviour
 
         public long cnic;
         public long srNumber;
-       
         public long blockCode;
+        public string polingStation;
 
     }
 
@@ -79,14 +79,15 @@ public class CredentialManager : MonoBehaviour
     {
         string[] data = textAssetData.text.Split(new string[] { ",", "\n" }, StringSplitOptions.None);
 
-        int tableSize = data.Length / 3 - 1;
+        int tableSize = data.Length / 4 - 1;
         playerDataList.playerData= new PlayerData[tableSize];
         for (int i = 0; i < tableSize; i++)
         {
             playerDataList.playerData[i] = new PlayerData();
-            playerDataList.playerData[i].srNumber =Int64.Parse( data[3*(i+1)]);
-            playerDataList.playerData[i].cnic= Int64.Parse(data[ 3*(i+1)+1]);
-            playerDataList.playerData[i].blockCode=Int64.Parse(data[ 3*(i+1)+2]);
+            playerDataList.playerData[i].srNumber =Int64.Parse(data[4*(i+1)]);
+            playerDataList.playerData[i].cnic= Int64.Parse(data[4*(i+1)+1]);
+            playerDataList.playerData[i].blockCode=Int64.Parse(data[ 4*(i+1)+2]);
+            playerDataList.playerData[i].polingStation=data[4*(i+1)+3];
         }
     }
 
@@ -121,6 +122,7 @@ public class CredentialManager : MonoBehaviour
                     showcnicText.text = playerDataList.playerData[i].cnic.ToString();
                     showSNumbText.text = playerDataList.playerData[i].srNumber.ToString();
                     showblcktext.text = playerDataList.playerData[i].blockCode.ToString();
+                   showPolingStationText.text = playerDataList.playerData[i].polingStation.ToUpper();
                     fetchDataTablePanel.SetActive(true);
                     PopUpPanel.SetActive(false);
                     break;
@@ -131,6 +133,7 @@ public class CredentialManager : MonoBehaviour
                     showcnicText.text =string.Empty;
                     showSNumbText.text = string.Empty;
                     showblcktext.text = string.Empty;
+                    showPolingStationText.text = string.Empty;
                     PopUpPanel.SetActive(!false);
                     popUpText.text = "CNIC Number is Incorrect! Try Again";
                     //fetchDataTablePanel.SetActive(false);
@@ -154,6 +157,7 @@ public class CredentialManager : MonoBehaviour
             showcnicText.text = string.Empty;
             showSNumbText.text = string.Empty;
             showblcktext.text = string.Empty;
+            showPolingStationText.text = string.Empty;
             popUpText.text = "CNIC Number is Incorrect! Try Again";
             PopUpPanel.SetActive(true);
         }
@@ -180,6 +184,7 @@ public class CredentialManager : MonoBehaviour
         showcnicText.text = string.Empty;
         showSNumbText.text = string.Empty;
         showblcktext.text = string.Empty;
+       showPolingStationText.text = string.Empty;
         loginButton.onClick.RemoveAllListeners();
         loginButton.onClick.AddListener(adminDetails);
        searchBtn.onClick.RemoveAllListeners();
